@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Filesystem;
 
 class AnalizerCommand extends Command
 {
@@ -45,6 +46,7 @@ class AnalizerCommand extends Command
         $argPath = $input->getArgument('txtPath');
 
         $txtPath = $this->projectDir . '/' . $argPath;
+        $logPath = $this->projectDir . '/var/log/';
 
         if (file_exists($txtPath)) {
             $fileContents = file_get_contents($txtPath, true);
@@ -55,6 +57,9 @@ class AnalizerCommand extends Command
             
             $longestSentenceLen = str_word_count($longestSentenceStr);
             $shortestSentenceLen = str_word_count($shortestSentenceStr);
+
+            $filesystem = new Filesystem;
+            $filesystem->dumpFile($logPath . 'output.txt', sprintf("Longest: %d words. Sentence: %s\nShortest: %d words. Sentence: %s", $longestSentenceLen, $longestSentenceStr, $shortestSentenceLen, $shortestSentenceStr));
 
             $io->success(sprintf("Longest: %d words. Sentence: %s\n\nShortest: %d words. Sentence: %s", $longestSentenceLen, $longestSentenceStr, $shortestSentenceLen, $shortestSentenceStr));
         } else {
