@@ -34,7 +34,7 @@ class AnalizerCommand extends Command
         $mapping = array_combine($array, array_map('strlen', $array));     
         return array_keys($mapping, max($mapping));     
     }
-    
+
     public function shortest_string_in_array($array) {    
         $mapping = array_combine($array, array_map('strlen', $array));     
         return array_keys($mapping, min($mapping));     
@@ -51,13 +51,22 @@ class AnalizerCommand extends Command
             $fileContents = file_get_contents($txtPath, true);
             $sentences = preg_split('/(?<=[.?!])\s+(?=[a-z])/i', $fileContents);
 
-            dd($this->shortest_string_in_array($sentences));
+            $longestSentenceStr = implode("", $this->longest_string_in_array($sentences));
+            $shortestSentenceStr = implode("", $this->shortest_string_in_array($sentences));
+            
+            $longestSentenceLen = str_word_count($longestSentenceStr);
+            $shortestSentenceLen = str_word_count($shortestSentenceStr);
+
+            dump($longestSentenceStr);
+            dump($longestSentenceLen);
+            dump($shortestSentenceStr);
+            dump($shortestSentenceLen);
+            die();
 
             $io->success($txtPath);
         } else {
             $io->error(sprintf('Could not find %s', $txtPath));
         }
-        
 
         return Command::SUCCESS;
     }
