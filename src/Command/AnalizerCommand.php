@@ -5,7 +5,6 @@ namespace App\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -57,13 +56,7 @@ class AnalizerCommand extends Command
             $longestSentenceLen = str_word_count($longestSentenceStr);
             $shortestSentenceLen = str_word_count($shortestSentenceStr);
 
-            dump($longestSentenceStr);
-            dump($longestSentenceLen);
-            dump($shortestSentenceStr);
-            dump($shortestSentenceLen);
-            die();
-
-            $io->success($txtPath);
+            $io->success(sprintf("Longest: %d words. Sentence: %s\n\nShortest: %d words. Sentence: %s", $longestSentenceLen, $longestSentenceStr, $shortestSentenceLen, $shortestSentenceStr));
         } else {
             $io->error(sprintf('Could not find %s', $txtPath));
         }
