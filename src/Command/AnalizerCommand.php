@@ -29,7 +29,17 @@ class AnalizerCommand extends Command
         ->addArgument('txtPath', InputArgument::REQUIRED, 'Path to .txt file.')
         ;
     }
+
+    public function longest_string_in_array($array) {    
+        $mapping = array_combine($array, array_map('strlen', $array));     
+        return array_keys($mapping, max($mapping));     
+    }
     
+    public function shortest_string_in_array($array) {    
+        $mapping = array_combine($array, array_map('strlen', $array));     
+        return array_keys($mapping, min($mapping));     
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -38,7 +48,10 @@ class AnalizerCommand extends Command
         $txtPath = $this->projectDir . '/' . $argPath;
 
         if (file_exists($txtPath)) {
-            $lines = file($txtPath);
+            $fileContents = file_get_contents($txtPath, true);
+            $sentences = preg_split('/(?<=[.?!])\s+(?=[a-z])/i', $fileContents);
+
+            dd($this->shortest_string_in_array($sentences));
 
             $io->success($txtPath);
         } else {
