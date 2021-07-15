@@ -63,7 +63,7 @@ class AnalizerCommand extends Command
 
             $io->success(sprintf("Longest: %d words. Sentence: %s\n\nShortest: %d words. Sentence: %s", $longestSentenceLen, $longestSentenceStr, $shortestSentenceLen, $shortestSentenceStr));
         } else {
-            $io->error(sprintf('Could not find %s', $txtPath));
+            $io->error(sprintf('Could not find %s :(. Try again.', $txtPath));
         }
 
         return Command::SUCCESS;
